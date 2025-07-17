@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>لوحة إدارة المنتجات (صور وفيديو)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      padding: 30px;
+      direction: rtl;
+      max-width: 600px;
+      margin: auto;
+    }
+    h2 {
+      color: #25D366;
+      margin-bottom: 20px;
+    }
+    input, button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #25D366;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .home-btn {
+      background-color: #007bff;
+      margin-bottom: 20px;
+    }
+    #previewContainer img,
+    #previewContainer video {
+      width: 100%;
+      max-height: 200px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-top: 10px;
+    }
+    .product-list {
+      margin-top: 30px;
+    }
+    .product-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f0f0f0;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .product-info {
+      flex-grow: 1;
+      text-align: right;
+    }
+    .product-info div {
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+    .delete-btn {
+      background-color: #e74c3c;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h2>لوحة الإدارة - إضافة منتج (صور أو فيديو)</h2>
+
+  <button class="home-btn" onclick="goToHome()">🏠 عرض الصفحة الرئيسية</button>
+
+  <input type="text" id="name" placeholder="اسم المنتج" />
+  <input type="text" id="price" placeholder="السعر" />
+  <input type="file" id="media" accept="image/*,video/*" />
+  <div id="previewContainer"></div>
+
+  <button onclick="addProduct()">➕ إضافة المنتج</button>
+  <button onclick="clearProducts()">🗑️ حذف كل المنتجات</button>
+
+  <div class="product-list" id="productList"></div>
+
+  <script>
+    const previewContainer = document.getElementById('previewContainer');
+    const mediaInput = document.getElementById('media');
+    const productList = document.getElementById('productList');
+
+    let products = JSON.parse(localStorage.getItem('products') || '[]');
+
+    function renderProductList() {
+      productList.innerHTML = '';
+      if (products.length === 0) {
+        productList.innerHTML = '<p>لا توجد منتجات مضافة.</p>';
+        return;
+      }
+      products.forEach((product, index) => {
+        const item = document.createElement('div');
+        item.className = 'product-item';
+        item.innerHTML = `
+          <div class="product-info">
+            <div>اسم المنتج: ${product.name}</div>
+            <div>السعر: ${product.price}</div>
+          </div>
+          <button class="delete-btn" onclick="deleteProduct(${index})">حذف</button>
+        `;
+        productList.appendChild(item);
+      });
+    }
+
+    mediaInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const url = e.target.result;
+        previewContainer.innerHTML = '';
+
+        if (file.type.startsWith('image/')) {
+          const img = document.createElement('img');
+          img.src = url;
+          previewContainer.appendChild(img);
+        } else if (file.type.startsWith('video/')) {
+          const video = document.createElement('video');
+          video.src = url;
+          video.controls = true;
+          previewContainer.appendChild(video);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function addProduct() {
+      const name = document.getElementById('name').value.trim();
+      const price = document.getElementById('price').value.trim();
+
+      if (!name || !price) {
+        alert("يرجى ملء اسم المنتج والسعر");
+        return;
+      }
+
+      // تحقق من وجود معاينة
+      if (previewContainer.children.length === 0) {
+        alert("يرجى رفع صورة أو فيديو للمنتج");
+        return;
+      }
+
+      // خذ src ونوع الوسيط (img أو video)
+      const mediaElement = previewContainer.children[0];
+      const mediaSrc = mediaElement.src;
+      const mediaType = mediaElement.tagName.toLowerCase(); // img أو video
+
+      products.push({ name, price, mediaSrc, mediaType });
+      localStorage.setItem('products', JSON.stringify(products));
+
+      alert("✅ تم إضافة المنتج بنجاح!");
+      document.getElementById('name').value = '';
+      document.getElementById('price').value = '';
+      mediaInput.value = '';
+      previewContainer.innerHTML = '';
+
+      renderProductList();
+    }
+
+    function deleteProduct(index) {
+      if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+        products.splice(index, 1);
+        localStorage.setItem('products', JSON.stringify(products));
+        renderProductList();
+      }
+    }
+
+    function clearProducts() {
+      if (confirm("هل أنت متأكد من حذف كل المنتجات؟")) {
+        products = [];
+        localStorage.removeItem('products');
+        renderProductList();
+      }
+    }
+
+    function goToHome() {
+      window.location.href = 'index.html';
+    }
+
+    renderProductList();
+  </script>
+</body>
+</html>

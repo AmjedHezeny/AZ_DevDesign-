@@ -1,0 +1,131 @@
+/* خطوط Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    min-height: 100vh;
+}
+
+header {
+    background: rgba(34, 34, 34, 0.85);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    padding: 24px 0;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    margin: 0;
+    color: #fff;
+    text-shadow: 0 2px 8px #6a11cb;
+}
+
+nav {
+    margin: 24px 0;
+    text-align: center;
+}
+
+nav a {
+    color: #fff;
+    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+    padding: 12px 32px;
+    margin: 0 8px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(106,17,203,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+nav a:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 6px 24px rgba(37,117,252,0.3);
+}
+
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    background: rgba(255,255,255,0.08);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(37,117,252,0.15);
+    padding: 40px;
+}
+
+section {
+    margin-bottom: 32px;
+}
+
+h2 {
+    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 16px;
+    text-shadow: 0 2px 8px #2575fc;
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: #e0e0e0;
+}
+
+button, input[type="submit"] {
+    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 32px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(106,17,203,0.2);
+    transition: background 0.2s, transform 0.2s;
+}
+
+button:hover, input[type="submit"]:hover {
+    background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+    transform: scale(1.05);
+}
+
+footer {
+    text-align: center;
+    padding: 24px 0;
+    background: rgba(34, 34, 34, 0.85);
+    color: #fff;
+    border-top: 2px solid #6a11cb;
+    margin-top: 40px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+/* تأثيرات إضافية */
+.card {
+    background: rgba(255,255,255,0.12);
+    border-radius: 18px;
+    box-shadow: 0 4px 16px rgba(37,117,252,0.12);
+    padding: 24px;
+    margin-bottom: 24px;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.card:hover {
+    box-shadow: 0 8px 32px rgba(106,17,203,0.18);
+    transform: translateY(-4px) scale(1.03);
+}
+
+/* استجابة للشاشات الصغيرة */
+@media (max-width: 600px) {
+    main {
+        padding: 16px;
+    }
+    header h1 {
+        font-size: 1.5rem;
+    }
+    h2 {
+        font-size: 1.2rem;
+    }
+}
